@@ -7,11 +7,11 @@ import queryClient from "./queries";
  * @param {string} baseURL - base URL for the API
  */
 export const authlessFetch = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_STRAPI_URL,
 });
 
 const authedFetch = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_STRAPI_URL,
 });
 
 /**

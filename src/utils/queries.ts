@@ -10,7 +10,7 @@ const queryClient = new QueryClient({
     },
     mutations: {
       onError({ response }: any, variables, context) {
-        toastError(null, response);
+        toastError(null, response.data);
       },
     },
   },

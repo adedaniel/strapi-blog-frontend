@@ -127,12 +127,11 @@ const theme = extendTheme({
         outline: {
           field: {
             _placeholder: {
-              color: "gray.300",
+              color: "gray.600",
             },
             _focus: {
               borderColor: "#6A30D0",
             },
-            background: "white",
           },
         },
       },

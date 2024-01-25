@@ -9,7 +9,7 @@ export default async function Home({ searchParams }: any) {
   });
 
   return (
-    <Box px="5%" py={6}>
+    <Box px="5%" pt={20} pb={10}>
       <Stack spacing={5} maxW="3xl" mt={10}>
         {blogPosts?.data.map(({ id, attributes, slug }: any) => (
           <Box key={id}>

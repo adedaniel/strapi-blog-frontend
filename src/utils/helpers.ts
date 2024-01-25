@@ -9,9 +9,7 @@ export async function fetcher(url: string, options: any = {}, params = {}) {
       new URLSearchParams(params),
     {
       next: { revalidate: 300 },
-      // headers: {
-      //   "X-Api-Key": `${process.env.NEXT_PUBLIC_API_KEY}`,
-      // },
+      ...options,
     }
   );
 
@@ -36,15 +34,16 @@ export const toastError = (
   description?: string
 ) => {
   // Trigger Chakra UI error toast
-  toast.error(title || "Uhh...", {
-    invert: true,
+  toast.error("Uhh...", {
     style: {
       background: theme.colors.primary[900],
       borderColor: theme.colors.primary[700],
       color: "white",
     },
-    description: description || "Something went wrong. Please try again later.",
-    duration: 4000,
-    position: "bottom-center",
+    description:
+      title ||
+      description ||
+      error?.error?.message ||
+      "Something went wrong. Please try again later.",
   });
 };
