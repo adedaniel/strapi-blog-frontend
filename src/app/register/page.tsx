@@ -12,41 +12,42 @@ import { useMutation } from "@tanstack/react-query";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authlessFetch } from "@/utils/api";
-import { cookies } from "next/headers";
 import { saveCookie } from "../actions";
 
 export default function LoginPage() {
-  const [loginDetails, setLoginDetails] = useState({
-    identifier: "",
+  const [registerDetails, setRegisterDetails] = useState({
+    name: "",
+    username: "",
+    email: "",
     password: "",
   });
   const router = useRouter();
 
   const { isPending, mutate } = useMutation({
     mutationFn: (payload: any) => {
-      return authlessFetch.post(`/auth/local/`, payload);
+      return authlessFetch.post(`/auth/local/register`, payload);
     },
     onSuccess: ({ data }: any) => {
+      console.log(data);
       localStorage.setItem("blog_acccess_token", data.jwt);
       saveCookie("token", data.jwt);
-      router.push("/");
+      router.push("/profile");
     },
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setLoginDetails((prev) => ({ ...prev, [name]: value }));
+    setRegisterDetails((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-
-    mutate(loginDetails);
+    mutate(registerDetails);
   };
 
   return (
-    <Box>
-      <Center w="full" minH="100VH">
+    <Box pt={32}>
+      <Center w="full">
         <Box
           onSubmit={handleSubmit}
           as="form"
@@ -59,30 +60,54 @@ export default function LoginPage() {
           borderColor="gray.500"
           bg="blackAlpha.800"
         >
-          <Heading>Login</Heading>
+          <Heading>Create an account</Heading>
 
           <Box mt={6}>
-            <Text>Email</Text>
+            <Text>Enter your full name</Text>
+            <Input
+              placeholder="Please enter your full name"
+              isRequired
+              variant="outline"
+              onChange={handleChange}
+              name="name"
+              value={registerDetails.name}
+            />
+          </Box>
+
+          <Box mt={5}>
+            <Text>Enter Username</Text>
+            <Input
+              placeholder="Please enter your preferred username"
+              isRequired
+              variant="outline"
+              onChange={handleChange}
+              name="username"
+              value={registerDetails.username}
+            />
+          </Box>
+
+          <Box mt={5}>
+            <Text>Enter Email</Text>
             <Input
               placeholder="Please enter your organisation email"
               isRequired
               variant="outline"
               onChange={handleChange}
-              name="identifier"
-              value={loginDetails.identifier}
+              name="email"
+              value={registerDetails.email}
               type="email"
             />
           </Box>
 
-          <Box mt={4}>
-            <Text>Password</Text>
+          <Box mt={5}>
+            <Text>Enter Password</Text>
             <Input
               placeholder="Please enter your password"
               isRequired
               variant="outline"
               onChange={handleChange}
               name="password"
-              value={loginDetails.password}
+              value={registerDetails.password}
               type="password"
             />
           </Box>
@@ -95,7 +120,7 @@ export default function LoginPage() {
             w="full"
             type="submit"
           >
-            Login
+            Sign up
           </Button>
         </Box>
       </Center>

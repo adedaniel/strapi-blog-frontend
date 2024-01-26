@@ -17,7 +17,7 @@ export default function AddComment({ user, postId, slug }: any) {
     });
 
     if (!data?.data?.id) {
-      toastError("Unable to add comment");
+      toastError("Unable to add comment", data);
       return;
     }
 
