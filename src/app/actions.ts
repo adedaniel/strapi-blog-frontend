@@ -1,7 +1,7 @@
 "use server";
 
 import { fetcher } from "@/utils/helpers";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const refetch = async (tag?: string) => {
@@ -54,4 +54,23 @@ export const sendComment = (payload: any) => {
     },
     body: JSON.stringify(payload),
   });
+};
+
+export const updateUserDetails = async (userId: number, payload: any) => {
+  "use server";
+
+  const token = cookies().get("token")?.value;
+
+  const response = fetcher(`/users/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  revalidatePath("/profile");
+
+  return response;
 };
