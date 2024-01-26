@@ -8,7 +8,7 @@ export async function fetcher(url: string, options: any = {}, params = {}) {
       "?" +
       new URLSearchParams(params),
     {
-      next: { revalidate: 300 },
+      next: { revalidate: 100 },
       ...options,
     }
   );
