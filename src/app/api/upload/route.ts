@@ -18,22 +18,33 @@ export async function POST(request: Request, response: Response) {
 
     const arrayBuffer = await inputFile.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream(
-          {
-            public_id: userId!.toString(),
-            folder: "strapi-blog-users",
-          },
-          (error, result) => {
-            if (error) {
-              reject(error);
-            }
-            resolve(result);
-          }
-        )
-        .end(buffer);
-    });
+
+    const base64 = Buffer.from(buffer).toString("base64");
+
+    const result = await cloudinary.uploader.upload(
+      `data:${inputFile.type};base64,${base64}`,
+      {
+        public_id: userId!.toString(),
+        folder: "strapi-blog-users",
+      }
+    );
+
+    // new Promise((resolve, reject) => {
+    //   cloudinary.uploader
+    //     .upload_stream(
+    //       {
+    //         public_id: userId!.toString(),
+    //         folder: "strapi-blog-users",
+    //       },
+    //       (error, result) => {
+    //         if (error) {
+    //           reject(error);
+    //         }
+    //         resolve(result);
+    //       }
+    //     )
+    //     .end(buffer);
+    // });
 
     return Response.json(result as UploadApiResponse, {
       headers: {

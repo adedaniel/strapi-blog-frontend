@@ -5,7 +5,16 @@ import { notFound } from "next/navigation";
 import { getUser } from "../actions";
 import AddComment from "@/components/AddComment";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const posts = await fetcher("/blogs");
+
+  return posts.data.map(({ attributes }: any) => ({
+    slug: attributes.slug,
+  }));
+}
 
 export default async function EachPost({ params }: any) {
   // await new Promise((resolve) => setTimeout(resolve, 5000));

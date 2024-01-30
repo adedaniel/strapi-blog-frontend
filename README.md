@@ -32,3 +32,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Deploy on Vercel
 
 View vercel deployment on [https://strapi-blog-frontend-app.vercel.app/](https://strapi-blog-frontend-app.vercel.app/)
+_PS: The production DB has been taken down to avoid Fly.io charges for now so you might need to setup your own Postgres DB and server on Fly.io. This article can help - https://forum.strapi.io/t/fly-io-deployment/22438_
